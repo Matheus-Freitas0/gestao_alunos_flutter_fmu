@@ -1,93 +1,33 @@
 # Sistema de Gestão de Alunos
 
-Um sistema moderno e intuitivo para gerenciamento de alunos desenvolvido em Flutter.
+Aplicação de gerenciamento acadêmico desenvolvida em Flutter com foco em usabilidade, consistência visual e persistência local de dados.
 
-## 🚀 Funcionalidades
+## Visão Geral
 
-### Dashboard Principal
+- Dashboard com indicadores de alunos ativos, inativos e trancados.
+- Gestão completa do cadastro de alunos com pesquisa, filtros e ações rápidas.
+- Fluxos de cadastro e edição com validações, feedback visual e suporte a diferentes formatos de tela.
+- Persistência local utilizando `SharedPreferences`, garantindo funcionamento mesmo offline.
 
-- **Estatísticas em tempo real**: Visualização de total de alunos, ativos, inativos e trancados
-- **Design moderno**: Interface com gradientes e animações suaves
-- **Navegação intuitiva**: Acesso rápido às principais funcionalidades
+## Principais Funcionalidades
 
-### Gestão de Alunos
+- `Dashboard`: apresenta métricas consolidadas e atalhos para as principais áreas do sistema.
+- `Gestão de alunos`: listagem em cartões com status visual, busca por nome/curso/e-mail, filtros por status e ações deslizantes para edição ou exclusão.
+- `Cadastro e edição`: formulário validado (nome, idade, e-mail, telefone, curso, status) com máscara automática para telefone e mensagens de sucesso ou erro.
+- `Detalhes do aluno`: visualização completa dos dados cadastrais.
+- `Configurações`: opções de exportação, importação e limpeza de dados.
 
-- **Listagem avançada**: Cards com informações detalhadas e status visual
-- **Busca inteligente**: Pesquisa por nome, curso ou email
-- **Filtros por status**: Visualização de alunos ativos, inativos ou trancados
-- **Ações deslizantes**: Editar e excluir com gestos intuitivos
-- **Confirmação de exclusão**: Diálogo de confirmação para evitar exclusões acidentais
+## Tecnologias e Bibliotecas
 
-### Cadastro/Edição
+- `Flutter` (Material Design 3) para construção da interface.
+- `SharedPreferences` para armazenamento local.
+- `Flutter Slidable` para ações deslizantes.
+- `Flutter Staggered Animations` e `Shimmer` para transições e estados de carregamento.
+- `Google Fonts` para tipografia padronizada.
 
-- **Formulário completo**: Nome, idade, email, telefone, curso e status
-- **Validações robustas**: Validação de email, telefone, idade e campos obrigatórios
-- **Formatação automática**: Telefone formatado automaticamente durante a digitação
-- **Feedback visual**: Loading states e mensagens de sucesso/erro
-- **Design responsivo**: Interface adaptável para diferentes tamanhos de tela
+## Guia de Execução
 
-## 🛠️ Tecnologias Utilizadas
-
-- **Flutter**: Framework principal
-- **SharedPreferences**: Persistência de dados no LocalStorage do navegador
-- **Google Fonts**: Tipografia moderna
-- **Flutter Slidable**: Ações deslizantes
-- **Flutter Staggered Animations**: Animações escalonadas
-- **Shimmer**: Efeito de loading
-
-## 📱 Design System
-
-### Cores
-
-- **Primária**: Azul (#2196F3)
-- **Status**: Verde (ativo), Laranja (inativo), Vermelho (trancado)
-- **Gradientes**: Transições suaves entre cores
-
-### Componentes
-
-- **Cards**: Bordas arredondadas com sombras sutis
-- **Botões**: Design Material 3 com estados de loading
-- **Inputs**: Campos com ícones e validação visual
-- **Animações**: Transições suaves e escalonadas
-
-## 🚀 Como Executar
-
-1. Clone o repositório
-2. Execute `flutter pub get` para instalar as dependências
-3. Execute `flutter run` para iniciar o aplicativo
-
-## 📋 Estrutura do Projeto
-
-```
-lib/
-├── main.dart              # Configuração do app e tema
-├── models/
-│   └── aluno.dart         # Modelo de dados com validações
-├── db/
-│   ├── database_helper.dart # Interface unificada
-│   └── local_storage_helper.dart # Gerenciamento de dados no LocalStorage
-└── pages/
-    ├── home_page.dart     # Dashboard principal
-    ├── alunos_page.dart   # Listagem de alunos
-    ├── cadastro_page.dart # Formulário de cadastro/edição
-    ├── detalhes_aluno_page.dart # Página de detalhes do aluno
-    └── configuracoes_page.dart # Configurações e gerenciamento de dados
-```
-
-## ✨ Melhorias Implementadas
-
-- ✅ Interface moderna com Material Design 3
-- ✅ Dashboard com estatísticas em tempo real
-- ✅ Sistema de busca e filtros avançados
-- ✅ Validações robustas de formulário
-- ✅ Animações e transições suaves
-- ✅ Feedback visual para todas as ações
-- ✅ Design responsivo e acessível
-- ✅ Confirmações de exclusão
-- ✅ Loading states e tratamento de erros
-- ✅ Formatação automática de campos
-- ✅ Persistência de dados no LocalStorage
-- ✅ Página de detalhes do aluno
-- ✅ Sistema de exportar/importar dados
-- ✅ Gerenciamento completo de dados
-- ✅ Sistema inicia zerado (sem dados de exemplo)
+1. Configure o ambiente Flutter conforme a documentação oficial.
+2. Clone este repositório.
+3. Instale as dependências com `flutter pub get`.
+4. Inicie a aplicação com `flutter run` (emulador ou dispositivo físico).
