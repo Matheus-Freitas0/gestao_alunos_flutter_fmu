@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/aluno.dart';
-import '../db/database_helper.dart';
+import '../repositories/aluno_repository.dart';
 
 class CadastroPage extends StatefulWidget {
   final Aluno? aluno;
@@ -21,6 +21,7 @@ class _CadastroPageState extends State<CadastroPage> {
   final _telefoneController = TextEditingController();
   String _selectedStatus = 'ativo';
   bool _isLoading = false;
+  final AlunoRepository _repository = AlunoRepository();
 
   final List<String> _statusOptions = ['ativo', 'inativo', 'trancado'];
 
@@ -131,22 +132,20 @@ class _CadastroPageState extends State<CadastroPage> {
     });
 
     try {
+      final telefoneDigits = _telefoneController.text.replaceAll(RegExp(r'[^\d]'), '');
+
       final aluno = Aluno(
         id: widget.aluno?.id,
         nome: _nomeController.text.trim(),
         idade: int.parse(_idadeController.text),
         curso: _cursoController.text.trim(),
         email: _emailController.text.trim(),
-        telefone: _telefoneController.text.replaceAll(RegExp(r'[^\d]'), ''),
+        telefone: telefoneDigits,
         dataCadastro: widget.aluno?.dataCadastro ?? DateTime.now(),
         status: _selectedStatus,
       );
 
-      if (widget.aluno != null) {
-        await DatabaseHelper.instance.updateAluno(aluno);
-      } else {
-        await DatabaseHelper.instance.createAluno(aluno);
-      }
+      await _repository.salvar(aluno);
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

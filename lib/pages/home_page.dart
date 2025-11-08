@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import '../db/database_helper.dart';
+import '../repositories/aluno_repository.dart';
 import 'alunos_page.dart';
-import 'configuracoes_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,6 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Future<Map<String, int>> _statsFuture;
+  final AlunoRepository _repository = AlunoRepository();
 
   @override
   void initState() {
@@ -35,19 +35,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<Map<String, int>> _getStats() async {
-    final total = await DatabaseHelper.instance.getTotalAlunos();
-    final ativos = await DatabaseHelper.instance.getAlunosAtivos();
-    final inativos = await DatabaseHelper.instance.getAlunosByStatus('inativo');
-    final trancados = await DatabaseHelper.instance.getAlunosByStatus(
-      'trancado',
-    );
-
-    return {
-      'total': total,
-      'ativos': ativos,
-      'inativos': inativos.length,
-      'trancados': trancados.length,
-    };
+    return _repository.obterEstatisticas();
   }
 
   @override
@@ -109,18 +97,6 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const ConfiguracoesPage(),
-                              ),
-                            );
-                            _loadStats();
-                          },
-                          icon: const Icon(Icons.settings, color: Colors.white),
                         ),
                       ],
                     ),

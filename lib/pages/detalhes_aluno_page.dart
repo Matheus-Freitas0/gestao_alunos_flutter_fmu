@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import '../models/aluno.dart';
-import '../db/database_helper.dart';
+import '../repositories/aluno_repository.dart';
 import 'cadastro_page.dart';
 
 class DetalhesAlunoPage extends StatelessWidget {
   final Aluno aluno;
+  final AlunoRepository _repository = AlunoRepository();
 
-  const DetalhesAlunoPage({super.key, required this.aluno});
+  DetalhesAlunoPage({super.key, required this.aluno});
 
   @override
   Widget build(BuildContext context) {
@@ -328,7 +329,7 @@ class DetalhesAlunoPage extends StatelessWidget {
 
     if (confirmed == true) {
       try {
-        await DatabaseHelper.instance.deleteAluno(aluno.id!);
+        await _repository.remover(aluno.id!);
 
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

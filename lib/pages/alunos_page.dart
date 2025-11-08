@@ -3,7 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:shimmer/shimmer.dart';
 import '../models/aluno.dart';
-import '../db/database_helper.dart';
+import '../repositories/aluno_repository.dart';
 import 'cadastro_page.dart';
 import 'detalhes_aluno_page.dart';
 
@@ -19,6 +19,7 @@ class _AlunosPageState extends State<AlunosPage> {
   String _searchQuery = '';
   String _selectedStatus = 'todos';
   final TextEditingController _searchController = TextEditingController();
+  final AlunoRepository _repository = AlunoRepository();
 
   @override
   void initState() {
@@ -42,15 +43,10 @@ class _AlunosPageState extends State<AlunosPage> {
 
   void refreshAlunos() {
     setState(() {
-      if (_searchQuery.isNotEmpty) {
-        futureAlunos = DatabaseHelper.instance.searchAlunos(_searchQuery);
-      } else if (_selectedStatus != 'todos') {
-        futureAlunos = DatabaseHelper.instance.getAlunosByStatus(
-          _selectedStatus,
-        );
-      } else {
-        futureAlunos = DatabaseHelper.instance.getAlunos();
-      }
+      futureAlunos = _repository.listar(
+        busca: _searchQuery.isNotEmpty ? _searchQuery : null,
+        status: _selectedStatus != 'todos' ? _selectedStatus : null,
+      );
     });
   }
 
@@ -91,7 +87,7 @@ class _AlunosPageState extends State<AlunosPage> {
     );
 
     if (confirmed == true) {
-      await DatabaseHelper.instance.deleteAluno(aluno.id!);
+      await _repository.remover(aluno.id!);
       refreshAlunos();
 
       if (mounted) {

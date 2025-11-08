@@ -1,33 +1,78 @@
-# Sistema de Gestão de Alunos
+# Gestão de Alunos
 
-Aplicação de gerenciamento acadêmico desenvolvida em Flutter com foco em usabilidade, consistência visual e persistência local de dados.
+Aplicação composta por Flutter (frontend) e Node.js/Express (backend) com persistência em MySQL para cadastro e acompanhamento de alunos.
 
-## Visão Geral
+## Recursos principais
 
-- Dashboard com indicadores de alunos ativos, inativos e trancados.
-- Gestão completa do cadastro de alunos com pesquisa, filtros e ações rápidas.
-- Fluxos de cadastro e edição com validações, feedback visual e suporte a diferentes formatos de tela.
-- Persistência local utilizando `SharedPreferences`, garantindo funcionamento mesmo offline.
+- Dashboard com total de alunos por status.
+- Listagem com busca e filtro.
+- Cadastro/edição com validação de dados.
+- API REST validada com `zod` e camada de repositório para MySQL.
 
-## Principais Funcionalidades
+## Requisitos
 
-- `Dashboard`: apresenta métricas consolidadas e atalhos para as principais áreas do sistema.
-- `Gestão de alunos`: listagem em cartões com status visual, busca por nome/curso/e-mail, filtros por status e ações deslizantes para edição ou exclusão.
-- `Cadastro e edição`: formulário validado (nome, idade, e-mail, telefone, curso, status) com máscara automática para telefone e mensagens de sucesso ou erro.
-- `Detalhes do aluno`: visualização completa dos dados cadastrais.
-- `Configurações`: opções de exportação, importação e limpeza de dados.
+- Node.js 18+
+- Flutter 3.9+
+- MySQL 8 (ou compatível)
 
-## Tecnologias e Bibliotecas
+## Configuração do backend
 
-- `Flutter` (Material Design 3) para construção da interface.
-- `SharedPreferences` para armazenamento local.
-- `Flutter Slidable` para ações deslizantes.
-- `Flutter Staggered Animations` e `Shimmer` para transições e estados de carregamento.
-- `Google Fonts` para tipografia padronizada.
+1. Ajuste o arquivo `backend/.env` (baseado em `env.example`) com as credenciais do banco:
+   ```
+   PORT=3000
+   MYSQL_HOST=localhost
+   MYSQL_PORT=3306
+   MYSQL_USER=seu_usuario
+   MYSQL_PASSWORD=sua_senha
+   MYSQL_DATABASE=gestao_alunos
+   MYSQL_CONNECTION_LIMIT=10
+   ```
+2. Certifique-se de que a tabela `alunos` existe (script disponível em nossas instruções anteriores).
 
-## Guia de Execução
+## Execução rápida
 
-1. Configure o ambiente Flutter conforme a documentação oficial.
-2. Clone este repositório.
-3. Instale as dependências com `flutter pub get`.
-4. Inicie a aplicação com `flutter run` (emulador ou dispositivo físico).
+Com MySQL já disponível, use o script automatizado:
+
+```bash
+bash scripts/run_all.sh
+```
+
+- Instala dependências e inicia o backend em `http://localhost:3000/api`.
+- Roda o Flutter (`flutter run`) definindo `API_BASE_URL` (padrão `http://localhost:3000/api`).
+- Ao encerrar o Flutter, o backend é finalizado automaticamente.
+
+### Execução manual (opcional)
+
+```bash
+# Backend
+cd backend
+npm install
+npm run dev
+
+# Flutter
+flutter pub get
+flutter run --dart-define=API_BASE_URL=http://localhost:3000/api
+```
+
+## Estrutura resumida
+
+```
+backend/
+  src/app.js, server.js
+  src/config, controllers, dtos, errors, middlewares, repositories, routes, services
+
+lib/
+  config, models, pages, repositories, services
+
+scripts/
+  run_all.sh
+```
+
+## Rotas da API
+
+- `GET /api/students`
+- `POST /api/students`
+- `PUT /api/students/:id`
+- `DELETE /api/students/:id`
+- `DELETE /api/students`
+- `POST /api/students/import`

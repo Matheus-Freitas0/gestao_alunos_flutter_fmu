@@ -22,6 +22,10 @@ class Aluno {
   });
 
   factory Aluno.fromMap(Map<String, dynamic> map) {
+    final dataCadastroRaw =
+        map['dataCadastro'] ??
+        map['data_cadastro'] ??
+        DateTime.now().toIso8601String();
     return Aluno(
       id: map['id'],
       nome: map['nome'],
@@ -29,9 +33,9 @@ class Aluno {
       curso: map['curso'],
       email: map['email'] ?? '',
       telefone: map['telefone'] ?? '',
-      dataCadastro: DateTime.parse(
-        map['data_cadastro'] ?? DateTime.now().toIso8601String(),
-      ),
+      dataCadastro: dataCadastroRaw is DateTime
+          ? dataCadastroRaw
+          : DateTime.parse(dataCadastroRaw as String),
       status: map['status'] ?? 'ativo',
     );
   }
@@ -44,7 +48,7 @@ class Aluno {
       'curso': curso,
       'email': email,
       'telefone': telefone,
-      'data_cadastro': dataCadastro.toIso8601String(),
+      'dataCadastro': dataCadastro.toIso8601String(),
       'status': status,
     };
   }
@@ -54,7 +58,8 @@ class Aluno {
   }
 
   bool get isValidPhone {
-    return RegExp(r'^\(?[1-9]{2}\)? ?[0-9]{4,5}-?[0-9]{4}$').hasMatch(telefone);
+    final digitsOnly = telefone.replaceAll(RegExp(r'[^\d]'), '');
+    return RegExp(r'^[1-9]{2}[0-9]{8,9}$').hasMatch(digitsOnly);
   }
 
   bool get isValidAge {
@@ -66,10 +71,11 @@ class Aluno {
   }
 
   String get formattedPhone {
-    if (telefone.length == 11) {
-      return '(${telefone.substring(0, 2)}) ${telefone.substring(2, 7)}-${telefone.substring(7)}';
-    } else if (telefone.length == 10) {
-      return '(${telefone.substring(0, 2)}) ${telefone.substring(2, 6)}-${telefone.substring(6)}';
+    final digitsOnly = telefone.replaceAll(RegExp(r'[^\d]'), '');
+    if (digitsOnly.length == 11) {
+      return '(${digitsOnly.substring(0, 2)}) ${digitsOnly.substring(2, 7)}-${digitsOnly.substring(7)}';
+    } else if (digitsOnly.length == 10) {
+      return '(${digitsOnly.substring(0, 2)}) ${digitsOnly.substring(2, 6)}-${digitsOnly.substring(6)}';
     }
     return telefone;
   }

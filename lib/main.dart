@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'db/database_helper.dart';
 import 'pages/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  try {
-    await DatabaseHelper.instance.initDatabase();
-  } catch (e) {
-    // Erro ao inicializar LocalStorage
-  }
 
   runApp(const MyApp());
 }
